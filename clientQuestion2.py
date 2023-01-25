@@ -5,10 +5,10 @@ def main():
     client_socket.connect(('192.168.191.128', 1234))
 
     fahrenheit = float(input("Enter temperature in Fahrenheit: "))
-    client_socket.send(str(fahrenheit).encode())
+    client_socket.send(str(fahren).encode())
 
     celsius = client_socket.recv(1024).decode()
-    print(f"Temperature in Celsius: {celsius}")
+    print(f"Temperature in Celsius: {cels}")
 
     client_socket.close()
 
