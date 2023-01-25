@@ -7,7 +7,7 @@ def main():
     fahren = float(input("Enter temperature in Fahrenheit: "))
     client_socket.send(str(fahren).encode())
 
-    celsius = client_socket.recv(1024).decode()
+    cels = client_socket.recv(1024).decode()
     print(f"Temperature in Celsius: {cels}")
 
     client_socket.close()
