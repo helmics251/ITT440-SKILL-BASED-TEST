@@ -1,20 +1,19 @@
-#include <arpa/inet.h> // inet_addr()
+#include <arpa/inet.h> 
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h> // bzero()
+#include <strings.h> 
 #include <sys/socket.h>
-#include <unistd.h> // read(), write(), close()
-#define MAX 80
-#define PORT 8080
+#include <unistd.h> 
+
 #define SA struct sockaddr
-void func(int sockfd)
+void func(int socket_desc)
 {
-        char buff[MAX];
+        char buff[80];
         int n;
 
-        read(sockfd, buff, sizeof(buff));
+        read(socket_desc, buff, sizeof(buff));
         printf("From Server : %s", buff);
 
 
@@ -22,26 +21,26 @@ void func(int sockfd)
 
 int main()
 {
-        int sockfd, connfd;
-        struct sockaddr_in servaddr, cli;
+        int socket_desc, connect_desc;
+        struct sockaddr_in server, cli;
 
-        // socket create and verification
-        sockfd = socket(AF_INET, SOCK_STREAM, 0);
-        if (sockfd == -1) {
+        
+        socket_desc = socket(AF_INET, SOCK_STREAM, 0);
+        if (socket_desc == -1) {
                 printf("socket creation failed...\n");
                 exit(0);
         }
         else
                 printf("Socket successfully created..\n");
-        bzero(&servaddr, sizeof(servaddr));
+        bzero(&server, sizeof(server));
 
-        // assign IP, PORT
-        servaddr.sin_family = AF_INET;
-        servaddr.sin_addr.s_addr = inet_addr("192.168.191.128");
-        servaddr.sin_port = htons(PORT);
+        
+        server.sin_family = AF_INET;
+        server.sin_addr.s_addr = inet_addr("192.168.191.128");
+        server.sin_port = htons(8080);
 
-        // connect the client socket to server socket
-        if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr))
+        
+        if (connect(socket_desc, (SA*)&server, sizeof(server))
                 != 0) {
                 printf("connection with the server failed...\n");
                 exit(0);
@@ -49,9 +48,9 @@ int main()
         else
                 printf("connected to the server..\n");
 
-        // function for chat
-        func(sockfd);
+        
+        func(socket_desc);
 
-        // close the socket
-        close(sockfd);
+        
+        close(socket_desc);
 }
