@@ -6,7 +6,7 @@ def convert_to_celsius(fahren):
 
 def main():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('', 1234))
+    server_socket.bind(('', 8080))
     server_socket.listen(1)
 
     print("Server is listening for incoming connections...")
